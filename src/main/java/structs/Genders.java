@@ -1,5 +1,9 @@
 package structs;
 
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
 public enum Genders
 {
     MALE ("Male"),
@@ -11,11 +15,6 @@ public enum Genders
     Genders(String gender)
     {
         this.gender = gender;
-    }
-
-    public String getGender()
-    {
-        return gender;
     }
 
     @Override

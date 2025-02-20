@@ -1,6 +1,8 @@
 package models;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
@@ -13,8 +15,11 @@ import java.util.Date;
 
 @Getter
 @Setter
+@NoArgsConstructor
+@AllArgsConstructor
 @Document(collection = "users")
-public class User {
+public class User
+{
 
     @Id
     private long m_id;
@@ -27,7 +32,10 @@ public class User {
 
     @Getter
     @Setter
-    public static class StructEducation {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StructEducation
+    {
         private String s_universityName;
         private String s_degree;
         private int s_graduationYear;
@@ -35,15 +43,20 @@ public class User {
 
     @Getter
     @Setter
-    public static class StructEmployment {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StructEmployment
+    {
         private String s_companyName;
         private String s_position;
         private Date s_startDate;
-        private Date s_endDate;
+        private String s_endDate;
     }
 
     @Getter
     @Setter
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class StructPersonalInfo
     {
         private String s_firstName;
@@ -55,13 +68,19 @@ public class User {
 
     @Getter
     @Setter
-    public static class StructContactInfo {
+    @NoArgsConstructor
+    @AllArgsConstructor
+    public static class StructContactInfo
+    {
         public String s_phoneNumber;
         public StructAddress s_address;
 
         @Getter
         @Setter
-        public static class StructAddress {
+        @NoArgsConstructor
+        @AllArgsConstructor
+        public static class StructAddress
+        {
             public String s_street;
             public String s_city;
             public String s_state;
