@@ -1,4 +1,4 @@
-package structs;
+package com.example.springbootdemo.structs;
 
 import lombok.Getter;
 import lombok.Setter;

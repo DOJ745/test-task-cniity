@@ -1,6 +1,6 @@
-package repos;
+package com.example.springbootdemo.repos;
 
-import models.User;
+import com.example.springbootdemo.models.User;
 import org.springframework.data.mongodb.repository.ReactiveMongoRepository;
 
 public interface UserRepository extends ReactiveMongoRepository<User, String>

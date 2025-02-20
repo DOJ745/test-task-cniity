@@ -1,5 +1,6 @@
-package models;
+package com.example.springbootdemo.models;
 
+import com.example.springbootdemo.structs.Genders;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -7,8 +8,6 @@ import lombok.Setter;
 
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
-
-import structs.*;
 
 import java.util.ArrayList;
 import java.util.Date;
