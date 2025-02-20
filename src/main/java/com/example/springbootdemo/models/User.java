@@ -21,13 +21,13 @@ public class User
 {
 
     @Id
-    private long m_id;
+    private long id;
 
-    private StructPersonalInfo m_personalInfo;
-    private StructEducation m_education;
-    private StructEmployment m_employment;
-    private StructContactInfo m_contactInfo;
-    private ArrayList<String> m_skills;
+    private StructPersonalInfo personalInfo;
+    private StructEducation education;
+    private StructEmployment employment;
+    private StructContactInfo contactInfo;
+    private ArrayList<String> skills;
 
     @Getter
     @Setter
@@ -35,9 +35,9 @@ public class User
     @AllArgsConstructor
     public static class StructEducation
     {
-        private String s_universityName;
-        private String s_degree;
-        private int s_graduationYear;
+        private String universityName;
+        private String degree;
+        private int graduationYear;
     }
 
     @Getter
@@ -46,10 +46,10 @@ public class User
     @AllArgsConstructor
     public static class StructEmployment
     {
-        private String s_companyName;
-        private String s_position;
-        private Date s_startDate;
-        private String s_endDate;
+        private String companyName;
+        private String position;
+        private Date startDate;
+        private String endDate;
     }
 
     @Getter
@@ -58,11 +58,11 @@ public class User
     @AllArgsConstructor
     public static class StructPersonalInfo
     {
-        private String s_firstName;
-        private String s_lastname;
-        private String s_email;
-        private Date s_dateOfBirth;
-        private Genders s_gender;
+        private String firstName;
+        private String lastName;
+        private String email;
+        private Date dateOfBirth;
+        private Genders gender;
     };
 
     @Getter
@@ -71,8 +71,8 @@ public class User
     @AllArgsConstructor
     public static class StructContactInfo
     {
-        public String s_phoneNumber;
-        public StructAddress s_address;
+        public String phoneNumber;
+        public StructAddress address;
 
         @Getter
         @Setter
@@ -80,11 +80,11 @@ public class User
         @AllArgsConstructor
         public static class StructAddress
         {
-            public String s_street;
-            public String s_city;
-            public String s_state;
-            public int s_postalCode;
-            public String s_country;
+            public String street;
+            public String city;
+            public String state;
+            public int postalCode;
+            public String country;
         }
     }
 }

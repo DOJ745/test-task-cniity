@@ -19,11 +19,13 @@ public class UserController
     @Autowired
     private UserRepository userRepository;
 
-//    @PostMapping
-//    public Mono<User> createUser(@RequestBody User user)
-//    {
-//        return userRepository.save(user);
-//    }
+    @PostMapping
+    public Mono<User> createUser(@RequestBody User user)
+    {
+        logger.info("Received POST request to create user: {}", user);
+
+        return userRepository.save(user);
+    }
     @GetMapping("/ping")
     public String testGet()
     {
@@ -31,12 +33,12 @@ public class UserController
         return "URL is working";
     }
 
-    @PostMapping
-    public Mono<ResponseEntity<String>> createUser(@RequestBody User user)
-    {
-        logger.info("Received POST request to create user: {}", user);
-
-        return userRepository.save(user)
-                .then(Mono.fromCallable(() -> ResponseEntity.ok("POST received")));
-    }
+//    @PostMapping
+//    public Mono<ResponseEntity<String>> createUser(@RequestBody User user)
+//    {
+//        logger.info("Received POST request to create user: {}", user);
+//
+//        return userRepository.save(user)
+//                .then(Mono.fromCallable(() -> ResponseEntity.ok("POST received")));
+//    }
 }
