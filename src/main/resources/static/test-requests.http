@@ -8,6 +8,7 @@ POST http://localhost:8080/users
 Content-Type: application/json
 
 {
+  "id": 1,
   "personalInfo": {
     "firstName": "John",
     "lastName": "Doe",
@@ -42,7 +43,7 @@ Content-Type: application/json
 ###
 
 ### PUT request to MongoDb in Docker container
-@id = 123
+@id = 1
 PUT http://localhost:8080/users/{{id}}
 Content-Type: application/json
 
@@ -80,22 +81,8 @@ Content-Type: application/json
 
 ###
 
-### PUT request to MongoDb in Docker container
-PUT http://localhost:8080/users/{{id}}
-Content-Type: application/json
+### DELETE request to MongoDb in Docker container
 
-{
-  "personalInfo": {
-    "firstName": "John",
-    "lastName": "Doe"
-  },
-  "employment": {
-    "companyName": "Example Corp123",
-    "position": "Software Engineer123",
-    "startDate": "2019-06-01",
-    "endDate": "Present"
-  },
-  "skills": ["Java", "Spring"]
-}
+DELETE http://localhost:8080/users/{{id}}
 
 ###
