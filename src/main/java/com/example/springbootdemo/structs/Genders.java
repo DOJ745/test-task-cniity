@@ -6,9 +6,9 @@ import lombok.Setter;
 @Getter
 public enum Genders
 {
-    MALE ("Male"),
-    FEMALE ("Female"),
-    OTHER ("Other");
+    Male ("Male"),
+    Female ("Female"),
+    Other ("Other");
 
     private String gender;
 

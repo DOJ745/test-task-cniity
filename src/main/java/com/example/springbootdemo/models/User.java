@@ -1,12 +1,10 @@
 package com.example.springbootdemo.models;
 
 import com.example.springbootdemo.structs.Genders;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.ArrayList;
@@ -16,11 +14,12 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
+@ToString
 @Document(collection = "users")
 public class User
 {
-
     @Id
+    @Indexed(unique = true)
     private long id;
 
     private StructPersonalInfo personalInfo;
@@ -31,6 +30,7 @@ public class User
 
     @Getter
     @Setter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     public static class StructEducation
@@ -42,6 +42,7 @@ public class User
 
     @Getter
     @Setter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     public static class StructEmployment
@@ -54,6 +55,7 @@ public class User
 
     @Getter
     @Setter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     public static class StructPersonalInfo
@@ -67,6 +69,7 @@ public class User
 
     @Getter
     @Setter
+    @ToString
     @NoArgsConstructor
     @AllArgsConstructor
     public static class StructContactInfo
@@ -76,6 +79,7 @@ public class User
 
         @Getter
         @Setter
+        @ToString
         @NoArgsConstructor
         @AllArgsConstructor
         public static class StructAddress
