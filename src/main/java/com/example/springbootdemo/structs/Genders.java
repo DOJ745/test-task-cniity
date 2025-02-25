@@ -1,5 +1,6 @@
 package com.example.springbootdemo.structs;
 
+import com.example.springbootdemo.file_operations.DefaultXmlAttributes;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -10,16 +11,29 @@ public enum Genders
     Female ("Female"),
     Other ("Other");
 
-    private String gender;
+    private final String genderName;
 
     Genders(String gender)
     {
-        this.gender = gender;
+        this.genderName = gender;
+    }
+
+    public static Genders fromString(String genderName)
+    {
+        for (Genders gender : Genders.values())
+        {
+            if (gender.genderName.equalsIgnoreCase(genderName))
+            {
+                return gender;
+            }
+        }
+
+        return null;
     }
 
     @Override
     public String toString()
     {
-        return gender;
+        return genderName;
     }
 }
