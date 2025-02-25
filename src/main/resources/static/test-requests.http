@@ -1,7 +1,17 @@
-### GET request to example server
-GET http://localhost:8080/users/ping
+@id = 1
 
-###
+### GET request to receive all users
+GET http://localhost:8080/users
+
+
+### GET request to receive user by id
+GET http://localhost:8080/users/{{id}}
+
+### GET request to read a file with users
+GET http://localhost:8080/users/xml
+
+### POST request to add users from xml file
+POST http://localhost:8080/users/xml
 
 ### POST request to MongoDb in Docker container
 POST http://localhost:8080/users
@@ -40,10 +50,8 @@ Content-Type: application/json
   "skills": ["Java", "Spring Boot", "MongoDB", "REST API"]
 }
 
-###
 
 ### PUT request to MongoDb in Docker container
-@id = 1
 PUT http://localhost:8080/users/{{id}}
 Content-Type: application/json
 
@@ -79,10 +87,6 @@ Content-Type: application/json
   "skills": ["Java", "Spring Boot", "MongoDB", "REST API"]
 }
 
-###
-
 ### DELETE request to MongoDb in Docker container
 
 DELETE http://localhost:8080/users/{{id}}
-
-###
