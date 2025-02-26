@@ -197,8 +197,6 @@ public class XmlAsyncReader
                         case TAG_USER:
                             if (userHandler != null && currentUser != null)
                             {
-                                System.out.println("Handling user with ID: " + currentUser.getId());
-
                                 User userCopy = getUserCopy();
 
                                 CompletableFuture.runAsync(() ->
@@ -261,7 +259,8 @@ public class XmlAsyncReader
 
             try
             {
-                if (!executor.awaitTermination(60, TimeUnit.SECONDS))
+                int MAX_TIMEOUT_SEC = 60;
+                if (!executor.awaitTermination(MAX_TIMEOUT_SEC, TimeUnit.SECONDS))
                 {
                     executor.shutdownNow();
                 }
