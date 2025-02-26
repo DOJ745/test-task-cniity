@@ -18,24 +18,24 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 public class SecurityConfig
 {
+
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http
-            , AuthenticationManager authenticationManager
-            , ObjectMapper objectMapper
-            , JwtUtil jwtUtil
-            , UserDetailsService userDetailsService) throws Exception
+    public SecurityFilterChain securityFilterChain(HttpSecurity http,
+                                                   AuthenticationManager authenticationManager,
+                                                   ObjectMapper objectMapper,
+                                                   JwtUtil jwtUtil,
+                                                   UserDetailsService userDetailsService) throws Exception
     {
+
         JsonAuthCustomFilter jsonFilter = new JsonAuthCustomFilter(objectMapper, jwtUtil);
         jsonFilter.setAuthenticationManager(authenticationManager);
 
-        JwtAuthFilter jwtFilter = new JwtAuthFilter(jwtUtil, userDetailsService);
-
         http
                 .addFilterBefore(jsonFilter, UsernamePasswordAuthenticationFilter.class)
-                .addFilterBefore(jwtFilter, UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests((authorize) -> authorize
                         .requestMatchers("/login").permitAll()
-                        .anyRequest().authenticated()
+                        .requestMatchers("/users").authenticated()
+                        .anyRequest().denyAll()
                 )
                 .csrf(AbstractHttpConfigurer::disable);
 
@@ -57,63 +57,11 @@ public class SecurityConfig
 
         var user = User.withUsername("user")
                 .password("{noop}password")
-                .roles("ADMIN")
+                .roles("USER")
                 .build();
 
         userDetailsService.createUser(user);
 
         return userDetailsService;
     }
-    //    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http, AuthenticationManager authenticationManager, ObjectMapper objectMapper) throws Exception
-//    {
-//        JsonAuthCustomFilter jsonFilter = new JsonAuthCustomFilter(objectMapper);
-//        jsonFilter.setAuthenticationManager(authenticationManager);
-//
-//        http
-//                .addFilterBefore(jsonFilter, UsernamePasswordAuthenticationFilter.class)
-//                .authorizeHttpRequests((authorize) -> authorize
-//                        .requestMatchers("/login").permitAll() // Разрешить доступ к /login без аутентификации
-//                        .anyRequest().authenticated()
-//                )
-//                .csrf(AbstractHttpConfigurer::disable); // Отключаем CSRF защиту, если не используется
-//
-//        return http.build();
-//    }
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-//    {
-//        http
-//                .authorizeHttpRequests((authorize) -> authorize
-//                        .anyRequest().authenticated()
-//                )
-//                .formLogin(withDefaults());
-//        return http.build();
-//    }
-//
-//    @Bean
-//    public UserDetailsService userDetailsService()
-//    {
-//        var userDetailsService = new InMemoryUserDetailsManager();
-//
-//        var user = User.withUsername("user")
-//                .password("{noop}password")
-//                .roles("USER")
-//                .build();
-//
-//        userDetailsService.createUser(user);
-//
-//        return userDetailsService;
-//    }
-
-//    @Bean
-//    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception
-//    {
-//        http
-//                .authorizeHttpRequests((authorize) -> authorize
-//                        .anyRequest().permitAll() // Разрешить доступ ко всем запросам
-//                )
-//                .csrf(AbstractHttpConfigurer::disable); // Отключить CSRF защиту
-//        return http.build();
-//    }
 }
