@@ -1,6 +1,7 @@
 package com.example.springbootdemo.security;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
@@ -57,18 +58,19 @@ public class SecurityConfig
                 .formLogin(AbstractHttpConfigurer::disable)
                 .httpBasic(AbstractHttpConfigurer::disable)
                 .addFilterBefore(jsonAuthFilter, UsernamePasswordAuthenticationFilter.class)
+                .addFilterBefore(new JwtAuthFilter(jwtUtils), UsernamePasswordAuthenticationFilter.class)
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/login").permitAll()
                         .requestMatchers("/users").authenticated()
                         .anyRequest().permitAll()
                 )
                 .sessionManagement(session -> session
-                        .sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 )
                 .cors(cors -> cors.configurationSource(request -> {
                             CorsConfiguration config = new CorsConfiguration();
                             config.setAllowedOrigins(List.of("http://localhost:8080"));
-                            config.setAllowedMethods(List.of("*"));
+                            config.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
                             config.setExposedHeaders(List.of("*"));
                             config.setAllowCredentials(true);
                             return config;
@@ -84,7 +86,14 @@ public class SecurityConfig
             Authentication authentication
     ) throws IOException
     {
-        SecurityContextHolder.getContext().setAuthentication(authentication);
+        String token = jwtUtils.generateToken(authentication.getName());
+
+        Cookie cookie = new Cookie("JWT", token);
+        cookie.setHttpOnly(true);
+        cookie.setSecure(false);
+        cookie.setPath("/");
+        cookie.setMaxAge(86400); // 24 часа
+        response.addCookie(cookie);
 
         response.setStatus(HttpStatus.OK.value());
         response.getWriter().write("Login successful!");
