@@ -1,7 +1,9 @@
 package com.example.springbootdemo.structs;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
+@JsonSerialize
 @Getter
 @Setter
 @ToString
@@ -18,6 +20,7 @@ public class StructContactInfo
         this.address = contactInfo.address;
     }
 
+    @JsonSerialize
     @Getter
     @Setter
     @ToString

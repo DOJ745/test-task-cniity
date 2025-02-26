@@ -1,7 +1,9 @@
 package com.example.springbootdemo.structs;
 
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import lombok.*;
 
+@JsonSerialize
 @Getter
 @Setter
 @ToString
