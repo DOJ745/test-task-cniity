@@ -1,20 +1,11 @@
 package com.example.springbootdemo.controllers;
 
 import com.example.springbootdemo.models.User;
-import com.example.springbootdemo.security.JwtUtil;
 import com.example.springbootdemo.services.UserService;
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -30,47 +21,10 @@ public class UserController
     @Autowired
     private UserService userService;
 
-    private final JwtUtil jwtUtil;
-
-    public UserController(JwtUtil jwtUtil)
-    {
-        this.jwtUtil = jwtUtil;
-    }
-
     @GetMapping
-    public Flux<User> getAllUsers(HttpServletRequest request)
+    public Flux<User> getAllUsers()
     {
         logger.info("Received GET request (all users)");
-
-        Cookie[] cookies = request.getCookies();
-        String token = null;
-
-        if (cookies != null)
-        {
-            for (Cookie cookie : cookies)
-            {
-                if ("jwt".equals(cookie.getName()))
-                {
-                    token = cookie.getValue();
-                    break;
-                }
-            }
-        }
-
-        if (token == null || !jwtUtil.validateToken(token))
-        {
-            return null;
-        }
-
-//        UserDetailsService userDetailsService = null;
-//        String username = jwtUtil.extractUsername(token);
-//        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
-//        if (token == null || !jwtUtil.validateToken(token))
-//        {
-//            ArrayList<User> temp;
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(temp);
-//        }
 
         return userService.getAllUsers();
     }
