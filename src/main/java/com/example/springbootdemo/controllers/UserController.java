@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -21,6 +22,7 @@ public class UserController
     @Autowired
     private UserService userService;
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping
     public Flux<User> getAllUsers()
     {
@@ -28,6 +30,7 @@ public class UserController
 
         return userService.getAllUsers();
     }
+
 
     @GetMapping("/{id}")
     public Mono<ResponseEntity<String>> getUserById(@PathVariable long id)
