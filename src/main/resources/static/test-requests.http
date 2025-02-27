@@ -8,17 +8,17 @@ Content-Type: application/json
   "password": "password"
 }
 
-### receive all users
-GET http://localhost:8080/users
-
-### receive user by id
-GET http://localhost:8080/users/{{id}}
-
 ### read a file with users
 GET http://localhost:8080/users/xml
 
 ### add users from xml file
 POST http://localhost:8080/users/xml
+
+### receive all users
+GET http://localhost:8080/users
+
+### receive user by id
+GET http://localhost:8080/users/{{id}}
 
 ### add user
 POST http://localhost:8080/users
@@ -60,8 +60,7 @@ Content-Type: application/json
 
 ### update user
 PUT http://localhost:8080/users/{{id}}
-Content-Type: application/json
-
+Content-Type: application/json01 ysxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
 {
   "personalInfo": {
     "firstName": "John123",

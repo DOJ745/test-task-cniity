@@ -4,8 +4,10 @@ import com.example.springbootdemo.file_operations.XmlAsyncReader;
 import com.example.springbootdemo.messages.ResponseMsg;
 import com.example.springbootdemo.models.User;
 import com.example.springbootdemo.structs.MsgTypes;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
@@ -17,11 +19,22 @@ import java.util.ArrayList;
 @Service
 public class UserService
 {
+    private final WebClient webClient;
     private final UserRepository userRepository;
 
-    public UserService(UserRepository userRepository)
+    public UserService(UserRepository userRepository, WebClient.Builder webClientBuilder)
     {
         this.userRepository = userRepository;
+        this.webClient = webClientBuilder.baseUrl("http://localhost:8080").build();
+    }
+
+    public Mono<ResponseEntity<User>> getUserByIdTestJwt(long id, String jwtToken)
+    {
+        return webClient.get()
+                .uri("/users/test/{id}", id)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken)
+                .retrieve()
+                .toEntity(User.class);
     }
 
     public Mono<ResponseEntity<String>> createUser(User user)
@@ -137,5 +150,22 @@ public class UserService
                 .then(
                         Mono.defer(() ->
                                 Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS,"New users have been added successfully")))));
+    }
+
+
+
+    public Mono<ResponseEntity<User>> getUserByIdTest(long id, String jwtToken) {
+        return webClient.get()
+                .uri("/users/test/{id}", id)
+                .header(HttpHeaders.AUTHORIZATION, "Bearer " + jwtToken)
+                .retrieve()
+                .toEntity(User.class);
+    }
+
+    public Mono<ResponseEntity<User>> getUserByIdTest(long id)
+    {
+        return userRepository.findById(id)
+                .map(ResponseEntity::ok)
+                .defaultIfEmpty(ResponseEntity.notFound().build());
     }
 }

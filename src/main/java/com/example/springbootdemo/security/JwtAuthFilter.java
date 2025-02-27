@@ -27,6 +27,7 @@ public class JwtAuthFilter extends OncePerRequestFilter
         this.jwtUtils = jwtUtils;
     }
 
+
     @Override
     protected void doFilterInternal(
             HttpServletRequest request,
@@ -34,8 +35,15 @@ public class JwtAuthFilter extends OncePerRequestFilter
             FilterChain filterChain
     ) throws ServletException, IOException
     {
+        Cookie[] cookies = request.getCookies();
 
-        String token = Arrays.stream(request.getCookies())
+        if (cookies == null)
+        {
+            filterChain.doFilter(request, response);
+            return;
+        }
+
+        String token = Arrays.stream(cookies)
                 .filter(c -> "JWT".equals(c.getName()))
                 .findFirst()
                 .map(Cookie::getValue)
@@ -46,6 +54,7 @@ public class JwtAuthFilter extends OncePerRequestFilter
             try
             {
                 Claims claims = jwtUtils.parseToken(token);
+
                 Authentication auth = new UsernamePasswordAuthenticationToken(
                         claims.getSubject(),
                         null,
