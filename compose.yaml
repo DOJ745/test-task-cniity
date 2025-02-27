@@ -1,4 +1,14 @@
 services:
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - '8080:8080'
+    environment:
+      - SPRING_DATA_MONGODB_URI=mongodb://root:secret@mongodb:27017/mydatabase?authSource=admin
+    depends_on:
+      - mongodb
   mongodb:
     image: 'mongo:latest'
     environment:

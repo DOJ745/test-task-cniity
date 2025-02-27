@@ -17,7 +17,7 @@ import java.util.concurrent.TimeUnit;
 public class XmlAsyncReader
 {
     private final ExecutorService executor;
-    public static String DEFAULT_FILE_PATH = "src/main/resources/static/big-user-data.xml";
+    public static String DEFAULT_FILE_PATH = "/app/big-user-data.xml";
     public static int DEFAULT_THREAD_POOL_SIZE = 4;
 
     public XmlAsyncReader(int threadPoolSize)

@@ -1,12 +1,4 @@
 @id = 1
-### LOGIN
-POST http://localhost:8080/login
-Content-Type: application/json
-
-{
-  "username": "user",
-  "password": "password"
-}
 
 ### read a file with users
 GET http://localhost:8080/users/xml
