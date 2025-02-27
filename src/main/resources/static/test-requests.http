@@ -60,9 +60,10 @@ Content-Type: application/json
 
 ### update user
 PUT http://localhost:8080/users/{{id}}
-Content-Type: application/json01 ysxzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzzz
+Content-Type: application/json
+
 {
-  "personalInfo": {
+  "personalInfo":{
     "firstName": "John123",
     "lastName": "Doe123",
     "email": "john123.doe123@example.com",
