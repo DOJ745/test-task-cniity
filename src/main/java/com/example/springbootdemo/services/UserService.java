@@ -131,7 +131,7 @@ public class UserService
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("User with " + id + " not found")))
                 .onErrorResume(ex ->
                         Mono.just(ResponseEntity
-                                .badRequest()
+                                .internalServerError()
                                 .body(ResponseMsg.createMsg(MsgTypes.MSG_INTERNAL_SERVER_ERROR
                                         , "Error deleting user: " + ex.getMessage()
                                         , null))));
