@@ -9,19 +9,22 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.io.Serializable;
+
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
 @Setter
 @JsonSerialize
-public class ResponseMsg
+public class ResponseMsg<T> implements Serializable
 {
     private MsgTypes msgType;
     private String msg;
+    private T data;
 
-    public static String createMsg(MsgTypes type, String msg)
+    public static <T> String createMsg(MsgTypes type, String msg, T data)
     {
-        ResponseMsg responseMsg = new ResponseMsg(type, msg);
+        ResponseMsg<T> responseMsg = new ResponseMsg<T>(type, msg, data);
         ObjectMapper objectMapper = new ObjectMapper();
 
         try

@@ -13,7 +13,6 @@ import com.example.springbootdemo.repos.UserRepository;
 
 import java.util.ArrayList;
 
-
 @Service
 public class UserService
 {
@@ -31,12 +30,16 @@ public class UserService
         {
             return Mono.just(ResponseEntity
                     .badRequest()
-                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, "User id must be greater than 0")));
+                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                            , "User id must be greater than 0"
+                            , null)));
         }
 
         return userRepository.save(user)
                 .map(savedUser ->
-                        ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS, savedUser.toString())));
+                        ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
+                                , "User has been created"
+                                , savedUser)));
     }
 
     public Flux<User> getAllUsers()
@@ -50,17 +53,23 @@ public class UserService
         {
             return Mono.just(ResponseEntity
                     .badRequest()
-                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, "User id must be greater than 0")));
+                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                            , "User id must be greater than 0"
+                            , null)));
         }
 
         return userRepository
                 .findById(id)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("User with " + id + " not found")))
-                .map(foundUser -> ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS, String.valueOf(foundUser))))
+                .map(foundUser -> ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
+                        , "User has been found"
+                        , foundUser)))
                 .onErrorResume(ex ->
                         Mono.just(ResponseEntity
                                 .badRequest()
-                                .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, ex.getMessage()))));
+                                .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                                        , ex.getMessage()
+                                        , null))));
     }
 
     public Mono<ResponseEntity<String>> updateUser(long id, User user)
@@ -69,7 +78,9 @@ public class UserService
         {
             return Mono.just(ResponseEntity
                     .badRequest()
-                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, "User id must be greater than 0")));
+                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                            , "User id must be greater than 0"
+                            , null)));
         }
 
         return userRepository.findById(id)
@@ -86,11 +97,15 @@ public class UserService
                 })
                 .map(updatedUser ->
                         ResponseEntity.ok()
-                        .body(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS, updatedUser.toString())))
+                        .body(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
+                                , "User has been updated"
+                                , updatedUser)))
                 .onErrorResume(ex ->
                         Mono.just(ResponseEntity
                                 .badRequest()
-                                .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, ex.getMessage()))));
+                                .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                                        , ex.getMessage()
+                                        , null))));
     }
 
 
@@ -100,20 +115,26 @@ public class UserService
         {
             return Mono.just(ResponseEntity
                     .badRequest()
-                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST, "User id must be greater than 0")));
+                    .body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
+                            , "User id must be greater than 0"
+                            , null)));
         }
 
         return userRepository.findById(id)
                 .flatMap(foundUser ->
                         userRepository
                                 .deleteById(id)
-                                .then(Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS, "User with id " + id + " has been deleted"))))
+                                .then(Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
+                                        , "User with id " + id + " has been deleted"
+                                        , null))))
                 )
                 .switchIfEmpty(Mono.error(new IllegalArgumentException("User with " + id + " not found")))
                 .onErrorResume(ex ->
                         Mono.just(ResponseEntity
                                 .badRequest()
-                                .body(ResponseMsg.createMsg(MsgTypes.MSG_INTERNAL_SERVER_ERROR, "Error deleting user: " + ex.getMessage()))));
+                                .body(ResponseMsg.createMsg(MsgTypes.MSG_INTERNAL_SERVER_ERROR
+                                        , "Error deleting user: " + ex.getMessage()
+                                        , null))));
     }
 
     public ArrayList<User> getUsersFromXml()
@@ -137,6 +158,8 @@ public class UserService
                 .saveAll(getUsersFromXml())
                 .then(
                         Mono.defer(() ->
-                                Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS,"New users have been added successfully")))));
+                                Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
+                                        ,"New users have been added successfully"
+                                        , null)))));
     }
 }

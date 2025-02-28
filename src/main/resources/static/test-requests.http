@@ -1,19 +1,19 @@
 @id = 1
 
 ### read a file with users
-GET http://localhost:8080/users/xml
+GET http://localhost:8080/api/users/xml
 
 ### add users from xml file
-POST http://localhost:8080/users/xml
+POST http://localhost:8080/api/users/xml
 
 ### receive all users
-GET http://localhost:8080/users
+GET http://localhost:8080/api/users
 
 ### receive user by id
-GET http://localhost:8080/users/{{id}}
+GET http://localhost:8080/api/users/{{id}}
 
 ### add user
-POST http://localhost:8080/users
+POST http://localhost:8080/api/users
 Content-Type: application/json
 
 {
@@ -51,13 +51,13 @@ Content-Type: application/json
 
 
 ### update user
-PUT http://localhost:8080/users/{{id}}
+PUT http://localhost:8080/api/users/{{id}}
 Content-Type: application/json
 
 {
   "personalInfo":{
-    "firstName": "John123",
-    "lastName": "Doe123",
+    "firstName": "John",
+    "lastName": "Doe",
     "email": "john123.doe123@example.com",
     "dateOfBirth": "1981-05-06",
     "gender": "Male"
@@ -87,4 +87,4 @@ Content-Type: application/json
 }
 
 ### delete user
-DELETE http://localhost:8080/users/{{id}}
+DELETE http://localhost:8080/api/users/{{id}}

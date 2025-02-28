@@ -2,10 +2,12 @@ package com.example.springbootdemo.controllers;
 
 import com.example.springbootdemo.models.User;
 import com.example.springbootdemo.services.UserService;
+import jakarta.validation.Valid;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
@@ -13,7 +15,7 @@ import reactor.core.publisher.Mono;
 import java.util.ArrayList;
 
 @RestController
-@RequestMapping("/users")
+@RequestMapping("api/users")
 public class UserController
 {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
@@ -50,7 +52,7 @@ public class UserController
     }
 
     @PostMapping
-    public Mono<ResponseEntity<String>> createUser(@RequestBody User user)
+    public Mono<ResponseEntity<String>> createUser(@RequestBody @Valid User user)
     {
         logger.info("Received POST request to create user: {}", user.toString());
 
@@ -58,7 +60,7 @@ public class UserController
     }
 
     @PutMapping("/{id}")
-    public Mono<ResponseEntity<String>> updateUser(@RequestBody User updateUser, @PathVariable long id)
+    public Mono<ResponseEntity<String>> updateUser(@RequestBody @Valid User updateUser, @PathVariable long id)
     {
         logger.info("Received PUT request to update user with id: {}\nNew data {}", id, updateUser.toString());
 
@@ -71,5 +73,17 @@ public class UserController
         logger.info("Received DELETE request to update user with id: {}", id);
 
         return userService.deleteUser(id);
+    }
+
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public ResponseEntity<String> handleValidationExceptions(MethodArgumentNotValidException ex)
+    {
+
+        StringBuilder errors = new StringBuilder();
+
+        ex.getBindingResult().getAllErrors().forEach(error ->
+                errors.append(error.getDefaultMessage()).append("\n"));
+
+        return (ResponseEntity.badRequest().body(errors.toString()));
     }
 }
