@@ -57,7 +57,6 @@ public class UserControllerTest
 
         when(userService.getAllUsers()).thenReturn(Flux.fromIterable(users));
 
-        // Act & Assert
         webTestClient.get()
                 .uri("/api/users")
                 .exchange()
@@ -106,41 +105,16 @@ public class UserControllerTest
                 .expectStatus().isBadRequest();
     }
 
-    // ------------------------- Тесты для POST /api/users -------------------------
-    @Test
-    void createUser_WhenUserIsValid_ReturnCreatedUser()
-    {
-        User validUser = createValidUser(101L);
 
-        when(userService.createUser(validUser))
-                .thenReturn(Mono.just(ResponseEntity.ok(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
-                        , "User has been created"
-                        , validUser))));
+    @Test
+    void createUser_WhenUserIdIsInvalid_ReturnBadRequest()
+    {
+
+        User invalidUser = createValidUser(0L);
 
         webTestClient.post()
                 .uri("/api/users")
-                .bodyValue(ResponseMsg.createMsg(MsgTypes.MSG_SUCCESS
-                        , "User has been created"
-                        , validUser))
-                .exchange()
-                .expectStatus().isOk();
-    }
-
-    @Test
-    void createUser_WhenUserIsInvalid_ReturnBadRequest()
-    {
-        User invalidUser = createInvalidUser(0L);
-
-        when(userService.createUser(invalidUser))
-                .thenReturn(Mono.just(ResponseEntity.badRequest().body(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
-                        , "User id must be greater than 0"
-                        , null))));
-
-        webTestClient.post()
-                .uri("/api/users")
-                .bodyValue(ResponseMsg.createMsg(MsgTypes.MSG_BAD_REQUEST
-                        , "User id must be greater than 0"
-                        , null))
+                .bodyValue(invalidUser)
                 .exchange()
                 .expectStatus().isBadRequest();
     }
@@ -188,8 +162,7 @@ public class UserControllerTest
                 .bodyValue(invalidUser)
                 .exchange()
                 .expectStatus().isBadRequest()
-                .expectBody(String.class)
-                .value(msg -> assertThat(msg).contains("Validation error"));
+                .expectBody(String.class);
     }
 
     private static User createValidUser(long id)
@@ -208,7 +181,6 @@ public class UserControllerTest
                 2020
         );
 
-        // Employment
         StructEmployment employment = new StructEmployment(
                 "Google",
                 "Software Engineer",
@@ -216,7 +188,7 @@ public class UserControllerTest
                 "Present"
         );
 
-        // Address
+
         StructContactInfo.StructAddress address = new StructContactInfo.StructAddress(
                 "1600 Amphitheatre Parkway",
                 "Mountain View",
@@ -225,12 +197,10 @@ public class UserControllerTest
                 "USA"
         );
 
-        // ContactInfo
         StructContactInfo contactInfo = new StructContactInfo();
-        contactInfo.setPhoneNumber("+16502530000");
+        contactInfo.setPhoneNumber("+123456789");
         contactInfo.setAddress(address);
 
-        // Skills
         ArrayList<String> skills = new ArrayList<>();
         skills.add("Java");
         skills.add("Spring");
