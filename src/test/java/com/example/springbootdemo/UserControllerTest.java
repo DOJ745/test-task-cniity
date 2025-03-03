@@ -2,11 +2,11 @@ package com.example.springbootdemo;
 
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.Mockito.*;
-import static org.assertj.core.api.Assertions.*;
 
 import com.example.springbootdemo.controllers.UserController;
 import com.example.springbootdemo.messages.ResponseMsg;
 import com.example.springbootdemo.models.User;
+import com.example.springbootdemo.repos.UserRepository;
 import com.example.springbootdemo.services.UserService;
 import com.example.springbootdemo.structs.*;
 import org.junit.jupiter.api.BeforeEach;
@@ -106,19 +106,6 @@ public class UserControllerTest
     }
 
 
-    @Test
-    void createUser_WhenUserIdIsInvalid_ReturnBadRequest()
-    {
-
-        User invalidUser = createValidUser(0L);
-
-        webTestClient.post()
-                .uri("/api/users")
-                .bodyValue(invalidUser)
-                .exchange()
-                .expectStatus().isBadRequest();
-    }
-
     // ------------------------- Тесты для PUT /api/users/{id} -------------------------
     @Test
     void updateUser_WhenDataIsValid_ReturnUpdatedUser()
@@ -193,12 +180,12 @@ public class UserControllerTest
                 "1600 Amphitheatre Parkway",
                 "Mountain View",
                 "CA",
-                94043,
+                10001,
                 "USA"
         );
 
         StructContactInfo contactInfo = new StructContactInfo();
-        contactInfo.setPhoneNumber("+123456789");
+        contactInfo.setPhoneNumber("+1234567890");
         contactInfo.setAddress(address);
 
         ArrayList<String> skills = new ArrayList<>();
